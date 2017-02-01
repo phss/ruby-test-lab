@@ -2,7 +2,7 @@ require_relative '../src/heap'
 
 describe DumbHeap do
   let(:comparator) { Proc.new(&:<) }
-  subject { DumbHeap.new(comparator) }
+  subject { described_class.new(comparator) }
 
   context '#empty' do
     it 'should have no top' do
@@ -53,16 +53,30 @@ describe DumbHeap do
     end
   end
 
-  context '#with random data' do
-    before { (1..100).to_a.shuffle.each { |e| subject.add(e) } }
+  context 'with random data' do
+    it 'minheap should retrieve all elements in descending order' do
+      maxheap = described_class.new(Proc.new(&:<))
+      (1..100).to_a.shuffle.each { |e| maxheap.add(e) }
 
-    it 'should retrieve all elements in min order' do
-      curr = subject.pop
-      while subject.size > 0
-        next_elem = subject.pop
+      curr = maxheap.pop
+      while maxheap.size > 0
+        next_elem = maxheap.pop
         expect(next_elem).to be > curr
         curr = next_elem
       end
     end
+
+    it 'maxheap should retrieve all elements in descending order' do
+      maxheap = described_class.new(Proc.new(&:>))
+      (1..100).to_a.shuffle.each { |e| maxheap.add(e) }
+
+      curr = maxheap.pop
+      while maxheap.size > 0
+        next_elem = maxheap.pop
+        expect(next_elem).to be < curr
+        curr = next_elem
+      end
+    end
+
   end
 end
