@@ -1,7 +1,8 @@
 require_relative '../src/heap'
 
 describe DumbHeap do
-  subject { DumbHeap.new }
+  let(:comparator) { Proc.new(&:<) }
+  subject { DumbHeap.new(comparator) }
 
   context '#empty' do
     it 'should have no top' do
@@ -36,7 +37,6 @@ describe DumbHeap do
       subject.pop
       expect(subject.size).to eq(0)
     end
-
   end
 
   context '#several elements' do
@@ -51,7 +51,6 @@ describe DumbHeap do
       expect(subject.pop).to eql(3)
       expect(subject.size).to eql(5)
     end
-
   end
 
   context '#with random data' do

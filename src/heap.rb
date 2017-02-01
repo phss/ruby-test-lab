@@ -1,7 +1,8 @@
 class DumbHeap
 
-  def initialize
+  def initialize(comparator)
     @raw = []
+    @comparator = comparator
   end
 
   def top
@@ -9,8 +10,10 @@ class DumbHeap
   end
 
   def pop
-    raise "error empty" if size == 0
-    min = @raw.min
+    raise 'error empty' if size == 0
+    min = @raw.reduce do |best, elem|
+      @comparator.call(best, elem) ? best : elem
+    end
     @raw.delete(min)
     min
   end
