@@ -1,6 +1,6 @@
 require_relative '../src/heap'
 
-describe DumbHeap do
+shared_examples_for 'Heap' do
   let(:comparator) { Proc.new(&:<) }
   subject { described_class.new(comparator) }
 
@@ -79,4 +79,8 @@ describe DumbHeap do
     end
 
   end
+end
+
+describe DumbHeap do
+  it_behaves_like 'Heap'
 end
