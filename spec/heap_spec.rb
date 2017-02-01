@@ -48,4 +48,16 @@ describe DumbHeap do
     expect(subject.pop).to eql(3)
     expect(subject.size).to eql(5)
   end
+
+  it 'should retrieve all elements in min order' do
+    data = (1..100).to_a.shuffle
+    data.each { |d| subject.add(d) }
+
+    curr = subject.pop
+    while subject.size > 0
+      next_elem = subject.pop
+      expect(next_elem).to be > curr
+      curr = next_elem
+    end
+  end
 end
