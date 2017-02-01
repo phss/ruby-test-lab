@@ -3,61 +3,67 @@ require_relative '../src/heap'
 describe DumbHeap do
   subject { DumbHeap.new }
 
-  it 'should have no top when empty' do
-    expect(subject.top).to be_nil
-  end
+  context '#empty' do
+    it 'should have no top' do
+      expect(subject.top).to be_nil
+    end
 
-  it 'should throw exception when poping from empty heap' do
-    # TODO improve style test
-    begin
-      subject.pop
-      expect(true).to eq(false)
-    rescue  => e
-      # fine
+    it 'should throw exception when popping' do
+      expect { subject.pop }.to raise_error('error empty')
+    end
+
+    it 'should have size of 0' do
+      expect(subject.size).to eq(0)
     end
   end
 
-  it 'should have size of 0 for empty heap' do
-    expect(subject.size).to eq(0)
+  context '#single element' do
+    before { subject.add(42) }
+
+    it 'should have only element on top' do
+      expect(subject.top).to eq(42)
+    end
+
+    it 'should pop single element' do
+      expect(subject.pop).to eq(42)
+    end
+
+    it 'should have size of 1' do
+      expect(subject.size).to eq(1)
+    end
+
+    it 'should be empty after pop' do
+      subject.pop
+      expect(subject.size).to eq(0)
+    end
+
   end
 
-  it 'should have single element after an add' do
-    subject.add(42)
+  context '#several elements' do
+    before { [12, 6, 3, 40, 4, 5].each { |e| subject.add(e) } }
 
-    expect(subject.top).to eq(42)
-    expect(subject.size).to eq(1)
+    it 'should have smallest element on top' do
+      expect(subject.top).to eql(3)
+      expect(subject.size).to eql(6)
+    end
+
+    it 'should pop smallest element' do
+      expect(subject.pop).to eql(3)
+      expect(subject.size).to eql(5)
+    end
+
   end
 
-  it 'should pop single element after an add' do
-    subject.add(42)
+  context '#with random data' do
+    before { (1..100).to_a.shuffle.each { |e| subject.add(e) } }
 
-    expect(subject.pop).to eq(42)
-    expect(subject.size).to eq(0)
-  end
-
-  it 'should have smallest element on top' do
-    [12, 6, 3, 40, 4, 5].each { |e| subject.add(e) }
-
-    expect(subject.top).to eql(3)
-    expect(subject.size).to eql(6)
-  end
-
-  it 'should have pop element on top' do
-    [12, 6, 3, 40, 4, 5].each { |e| subject.add(e) }
-
-    expect(subject.pop).to eql(3)
-    expect(subject.size).to eql(5)
-  end
-
-  it 'should retrieve all elements in min order' do
-    data = (1..100).to_a.shuffle
-    data.each { |d| subject.add(d) }
-
-    curr = subject.pop
-    while subject.size > 0
-      next_elem = subject.pop
-      expect(next_elem).to be > curr
-      curr = next_elem
+    it 'should retrieve all elements in min order' do
+      curr = subject.pop
+      while subject.size > 0
+        next_elem = subject.pop
+        expect(next_elem).to be > curr
+        curr = next_elem
+      end
     end
   end
 end
