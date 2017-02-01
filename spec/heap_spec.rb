@@ -84,3 +84,7 @@ end
 describe DumbHeap do
   it_behaves_like 'Heap'
 end
+
+describe ArrayHeap do
+  it_behaves_like 'Heap'
+end
