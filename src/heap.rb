@@ -5,12 +5,14 @@ class DumbHeap
   end
 
   def top
-    @raw.last
+    @raw.min
   end
 
   def pop
     raise "error empty" if size == 0
-    @raw.pop
+    min = @raw.min
+    @raw.delete(min)
+    min
   end
 
   def size
