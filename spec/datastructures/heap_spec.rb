@@ -1,4 +1,4 @@
-require_relative '../src/heap'
+require_relative '../../src/datastructures/heap'
 
 shared_examples_for 'Heap' do
   let(:comparator) { Proc.new(&:<) }
