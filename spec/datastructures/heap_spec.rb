@@ -13,7 +13,8 @@ shared_examples_for 'Heap' do
       expect { subject.pop }.to raise_error('error empty')
     end
 
-    it 'should have size of 0' do
+    it 'should be empty' do
+      expect(subject.empty?).to be true
       expect(subject.size).to eq(0)
     end
   end
@@ -30,11 +31,13 @@ shared_examples_for 'Heap' do
     end
 
     it 'should have size of 1' do
+      expect(subject.empty?).to be false
       expect(subject.size).to eq(1)
     end
 
     it 'should be empty after pop' do
       subject.pop
+      expect(subject.empty?).to be true
       expect(subject.size).to eq(0)
     end
   end

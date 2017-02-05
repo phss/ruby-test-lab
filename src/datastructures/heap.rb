@@ -9,7 +9,7 @@ class DumbHeap
   end
 
   def pop
-    raise 'error empty' if size == 0
+    raise 'error empty' if empty?
     min = @raw.reduce do |best, elem|
       @comparator.call(best, elem) ? best : elem
     end
@@ -19,6 +19,10 @@ class DumbHeap
 
   def size
     @raw.size
+  end
+
+  def empty?
+    size == 0
   end
 
   def add(element)
@@ -33,7 +37,7 @@ class ArrayHeap < DumbHeap
   end
 
   def pop
-    raise 'error empty' if size == 0
+    raise 'error empty' if empty?
     swap(0, size - 1)
     best = @raw.pop
     elem_index = 0
